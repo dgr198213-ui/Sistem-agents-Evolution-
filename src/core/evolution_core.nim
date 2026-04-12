@@ -3,8 +3,8 @@
 # ============================================================================
 # Generic evolutionary algorithm implementation for all agent types
 
-import agent_base, neuro_agent
-import random, sequtils, algorithm, math, tables
+import agent_base, ../agents/neuro_agent
+import random, sequtils, algorithm, math, tables, strutils
 
 # ============================================================================
 # Population Management

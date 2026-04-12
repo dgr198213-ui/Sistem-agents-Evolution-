@@ -4,83 +4,7 @@
 # Defines base types and interfaces for all evolutionary agent systems
 
 import random, sequtils, algorithm, math
-
-# ============================================================================
-# Type Definitions
-# ============================================================================
-
-type
-  # Position in 2D space
-  Vector2D* = object
-    x*, y*: float
-
-  # Agent state representation
-  AgentState* = object
-    position*: Vector2D
-    velocity*: Vector2D
-    energy*: float
-    age*: int
-    fitness*: float
-
-  # Genome representation for evolution
-  Genome*[T] = object
-    genes*: seq[T]
-    fitness*: float
-    id*: int
-    generation*: int
-
-  # Neural network weights genome
-  NeuralGenome* = Genome[float]
-
-  # Behavioral tree genome
-  BehaviorGenome* = Genome[string]
-
-  # Base agent interface
-  Agent* = ref object of RootObj
-    id*: int
-    state*: AgentState
-    genome*: NeuralGenome
-    
-  # Environment interface
-  Environment* = ref object of RootObj
-    width*, height*: float
-    agents*: seq[Agent]
-    time*: int
-
-  # Evolution parameters
-  EvolutionParams* = object
-    populationSize*: int
-    mutationRate*: float
-    crossoverRate*: float
-    eliteSize*: int
-    maxGenerations*: int
-    tournamentSize*: int
-
-# ============================================================================
-# Vector2D Operations
-# ============================================================================
-
-proc `+`*(a, b: Vector2D): Vector2D =
-  Vector2D(x: a.x + b.x, y: a.y + b.y)
-
-proc `-`*(a, b: Vector2D): Vector2D =
-  Vector2D(x: a.x - b.x, y: a.y - b.y)
-
-proc `*`*(v: Vector2D, scalar: float): Vector2D =
-  Vector2D(x: v.x * scalar, y: v.y * scalar)
-
-proc magnitude*(v: Vector2D): float =
-  sqrt(v.x * v.x + v.y * v.y)
-
-proc normalize*(v: Vector2D): Vector2D =
-  let mag = v.magnitude()
-  if mag > 0.0001:
-    Vector2D(x: v.x / mag, y: v.y / mag)
-  else:
-    Vector2D(x: 0.0, y: 0.0)
-
-proc distance*(a, b: Vector2D): float =
-  (b - a).magnitude()
+import types, ../utils/vector_ops
 
 # ============================================================================
 # Genome Operations
@@ -141,9 +65,7 @@ proc wrapAround*(pos: var Vector2D, width, height: float) =
 # Export all symbols
 # ============================================================================
 
-export Vector2D, AgentState, Genome, NeuralGenome, BehaviorGenome
-export Agent, Environment, EvolutionParams
-export `+`, `-`, `*`, magnitude, normalize, distance
+export types, vector_ops
 export newGenome, clone
 export update, sense, act, evaluateFitness
 export clamp, randomFloat, randomVector2D, wrapAround

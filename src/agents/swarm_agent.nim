@@ -3,7 +3,7 @@
 # ============================================================================
 # Implements flocking, foraging, and emergent collective behaviors
 
-import agent_base
+import ../core/agent_base
 import random, sequtils, algorithm, math
 
 # ============================================================================

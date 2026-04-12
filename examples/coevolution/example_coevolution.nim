@@ -3,8 +3,8 @@
 # ============================================================================
 # Demonstrates competitive coevolution between predators and prey
 
-import agent_base, coevo_agent, evolution_core
-import random, sequtils
+import ../../src/core/agent_base, ../../src/agents/coevo_agent, ../../src/core/evolution_core
+import random, sequtils, strutils
 
 proc runCoevolutionExperiment() =
   randomize()

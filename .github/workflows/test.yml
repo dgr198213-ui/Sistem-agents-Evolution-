@@ -1,0 +1,14 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: 'stable'
+      - name: Build and Test
+        run: |
+          make build
+          make test
