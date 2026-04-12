@@ -3,7 +3,7 @@
 # ============================================================================
 # Implements predator-prey dynamics and competitive coevolution
 
-import agent_base, neuro_agent
+import ../core/agent_base, neuro_agent
 import random, sequtils, algorithm, math
 
 # ============================================================================

@@ -3,8 +3,8 @@
 # ============================================================================
 # Demonstrates emergent collective behavior in swarm agents
 
-import agent_base, swarm_agent
-import random, sequtils
+import ../../src/core/agent_base, ../../src/agents/swarm_agent
+import random, sequtils, strutils
 
 proc runSwarmDemo() =
   randomize()

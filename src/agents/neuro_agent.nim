@@ -3,7 +3,7 @@
 # ============================================================================
 # Implements neuroevolutionary agents that evolve both topology and weights
 
-import agent_base
+import ../core/agent_base
 import random, sequtils, algorithm, math, tables
 
 # ============================================================================

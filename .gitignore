@@ -1,0 +1,10 @@
+# Build artifacts
+build/
+*.exe
+*.bin
+
+# Nim cache
+nimcache/
+
+# OS files
+.DS_Store

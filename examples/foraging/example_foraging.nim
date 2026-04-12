@@ -3,8 +3,8 @@
 # ============================================================================
 # Demonstrates neuroevolution for a resource gathering task
 
-import agent_base, neuro_agent, evolution_core
-import random, sequtils, os
+import ../../src/core/agent_base, ../../src/agents/neuro_agent, ../../src/core/evolution_core
+import random, sequtils, os, math, strutils
 
 # ============================================================================
 # Foraging Environment

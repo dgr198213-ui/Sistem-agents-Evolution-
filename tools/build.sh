@@ -1,5 +1,5 @@
 # ============================================================================
-# Build and Test Script
+# Build Script
 # ============================================================================
 
 #!/bin/bash
@@ -27,26 +27,28 @@ echo ""
 # Create build directory
 mkdir -p build
 
-echo "📦 Building modules..."
+echo "📦 Building examples..."
 echo ""
 
 # Build all example programs
+# Format: "path/to/source" "output_name"
 EXAMPLES=(
-    "example_foraging"
-    "example_coevolution"
-    "example_swarm"
+    "examples/foraging/example_foraging foraging"
+    "examples/coevolution/example_coevolution coevolution"
+    "examples/swarm/example_swarm swarm"
 )
 
 SUCCESS_COUNT=0
 FAIL_COUNT=0
 
-for example in "${EXAMPLES[@]}"; do
-    echo -e "${YELLOW}Building $example...${NC}"
-    if nim c --out:build/$example $example.nim 2>&1 | grep -q "Error"; then
-        echo -e "${RED}❌ Failed to build $example${NC}"
+for item in "${EXAMPLES[@]}"; do
+    read -r path name <<< "$item"
+    echo -e "${YELLOW}Building $name...${NC}"
+    if nim c --out:build/$name $path.nim 2>&1 | grep -q "Error"; then
+        echo -e "${RED}❌ Failed to build $name${NC}"
         ((FAIL_COUNT++))
     else
-        echo -e "${GREEN}✓ Successfully built $example${NC}"
+        echo -e "${GREEN}✓ Successfully built $name${NC}"
         ((SUCCESS_COUNT++))
     fi
     echo ""
@@ -62,9 +64,9 @@ if [ $FAIL_COUNT -eq 0 ]; then
     echo -e "${GREEN}🎉 All builds successful!${NC}"
     echo ""
     echo "Run examples with:"
-    echo "  ./build/example_foraging"
-    echo "  ./build/example_coevolution"
-    echo "  ./build/example_swarm"
+    echo "  ./build/foraging"
+    echo "  ./build/coevolution"
+    echo "  ./build/swarm"
     exit 0
 else
     echo -e "${RED}⚠️  Some builds failed${NC}"
