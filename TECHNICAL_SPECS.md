@@ -10,6 +10,10 @@
 
 ---
 
+## Meta-Router Architecture
+
+El sistema integra un enrutador inteligente basado en Python que permite a los agentes realizar razonamiento de alto nivel mediante el método `think`. Este enrutador clasifica la complejidad de las consultas y las deriva a diferentes tiers de modelos (Simple, Balanced, Complex) utilizando LiteLLM.
+
 ## Visión General
 
 ### Objetivo del Framework
