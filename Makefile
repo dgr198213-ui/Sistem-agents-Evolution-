@@ -11,5 +11,9 @@ test:
 clean:
 	rm -rf build/ nimcache/
 
+setup:
+	pip install -r requirements.txt
+	@echo "Note: Please ensure Nim is installed on your system (https://nim-lang.org/)"
+
 run-router:
 	python3 -m src.router.api_service
