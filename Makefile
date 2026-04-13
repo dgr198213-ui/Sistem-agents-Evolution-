@@ -1,4 +1,4 @@
-.PHONY: all build test clean
+.PHONY: all build test clean run-router
 
 all: build test
 
@@ -10,3 +10,6 @@ test:
 
 clean:
 	rm -rf build/ nimcache/
+
+run-router:
+	python3 -m src.router.api_service

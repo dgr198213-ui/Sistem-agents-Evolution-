@@ -3,8 +3,8 @@
 # ============================================================================
 # Defines base types and interfaces for all evolutionary agent systems
 
-import random, sequtils, algorithm, math
-import types, ../utils/vector_ops
+import random, sequtils, algorithm, math, json
+import types, ../utils/vector_ops, ../utils/router_client
 
 # ============================================================================
 # Genome Operations
@@ -41,6 +41,18 @@ method evaluateFitness*(agent: Agent, env: Environment): float {.base.} =
   ## Calculate fitness score
   result = agent.state.fitness
 
+method think*(agent: Agent, prompt: string, tier: string = ""): string {.base.} =
+  ## Use Meta-Router for high-level decision making
+  let messages = %*[
+    {"role": "system", "content": "You are an evolutionary agent. Analyze the situation and decide on a strategy."},
+    {"role": "user", "content": prompt}
+  ]
+  try:
+    let response = callMetaRouter(messages, tier)
+    result = response.content
+  except:
+    result = "Error calling Meta-Router"
+
 # ============================================================================
 # Utility Functions
 # ============================================================================
@@ -67,5 +79,5 @@ proc wrapAround*(pos: var Vector2D, width, height: float) =
 
 export types, vector_ops
 export newGenome, clone
-export update, sense, act, evaluateFitness
+export update, sense, act, evaluateFitness, think
 export clamp, randomFloat, randomVector2D, wrapAround

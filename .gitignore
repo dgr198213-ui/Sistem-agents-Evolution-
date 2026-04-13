@@ -2,9 +2,28 @@
 build/
 *.exe
 *.bin
+src/core/agent_base
+src/utils/router_client
+tests/test_integration
+tests/test_runner
+tests/test_agent_base
+tests/test_neuro_agent
+tests/test_evolution_core
 
 # Nim cache
 nimcache/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+
+# Logs
+*.log
 
 # OS files
 .DS_Store

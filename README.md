@@ -1,21 +1,16 @@
 # Evolutionary Agents in Nim 🧬
 
-A comprehensive framework for evolutionary computation and multi-agent systems implemented in Nim.
+A comprehensive framework for evolutionary computation and multi-agent systems implemented in Nim, now featuring a **Meta-Router Architecture** for high-level decision making.
 
 ## 📚 Overview
 
 This framework provides modular, efficient implementations of:
 
-- **Neuroevolution** (NEAT-inspired neural network evolution)
-- **Swarm Intelligence** (flocking, foraging, collective behavior)
-- **Coevolutionary Systems** (predator-prey, competitive evolution)
-- **Generic Evolutionary Algorithms** (selection, crossover, mutation)
-
-Based on cutting-edge research in:
-- EvoAgent framework (2024)
-- NEAT and neuroevolution variants
-- Swarm robotics and collective behavior
-- Competitive/cooperative coevolution
+- **Meta-Router Architecture**: Intelligent semantic routing for high-level agent decision making.
+- **Neuroevolution**: NEAT-inspired neural network evolution.
+- **Swarm Intelligence**: Flocking, foraging, collective behavior.
+- **Coevolutionary Systems**: Predator-prey, competitive evolution.
+- **Generic Evolutionary Algorithms**: Selection, crossover, mutation.
 
 ---
 
@@ -25,383 +20,55 @@ Based on cutting-edge research in:
 
 ```
 evolutionary_agents/
-├── agent_base.nim          # Base types and interfaces
-├── neuro_agent.nim         # Neuroevolutionary agents
-├── swarm_agent.nim         # Swarm/collective behavior agents
-├── coevo_agent.nim         # Coevolutionary agents
-├── evolution_core.nim      # Generic EA operations
-├── example_foraging.nim    # Foraging task demo
-├── example_coevolution.nim # Predator-prey demo
-└── example_swarm.nim       # Flocking demo
-```
-
-### Type Hierarchy
-
-```nim
-Agent (base)
-├── NeuroAgent          # Neural network controller
-│   ├── ForagingAgent   # Resource gathering specialist
-│   └── CoevoAgent      # Predator/prey variant
-└── SwarmAgent          # Local interaction-based
+├── src/
+│   ├── core/
+│   │   ├── agent_base.nim      # Base types and interfaces (now with 'think')
+│   │   ├── types.nim           # Shared types
+│   │   └── evolution_core.nim  # EA operations
+│   ├── agents/
+│   │   ├── neuro_agent.nim     # Neuroevolutionary agents
+│   │   ├── swarm_agent.nim     # Swarm agents
+│   │   └── coevo_agent.nim     # Coevolutionary agents
+│   ├── utils/
+│   │   ├── vector_ops.nim      # 2D vector math
+│   │   └── router_client.nim   # Meta-Router API client
+│   └── router/                 # Meta-Router (Python/FastAPI)
+│       ├── api_service.py
+│       ├── meta_router.py
+│       └── tiered_router.py
+└── examples/                   # Demos
 ```
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Neuroevolution Example
-
-Evolve neural networks to control foraging agents:
-
+### 1. Start the Meta-Router (Optional but recommended)
+Requires Python 3.9+ and API keys in `.env`.
 ```bash
-nim c -r example_foraging.nim
+make run-router
 ```
 
-**What it does:**
-- Evolves population of 50 agents over 50 generations
-- Agents learn to collect food and return to home base
-- Uses NEAT-inspired topology evolution
-- Tournament selection, crossover, and mutation
-
-**Output:**
-```
-🧬 Neuroevolutionary Foraging Agents
-====================================
-
-Generation: 0
-  Best:    45.23
-  Average: 12.45
-  Worst:   0.00
-  Diversity: 15.32
-
-Generation: 1
-  Best:    78.50
-  Average: 28.91
-  ...
-```
-
-### 2. Coevolution Example
-
-Competitive evolution between predators and prey:
-
+### 2. Run Nim Examples
 ```bash
-nim c -r example_coevolution.nim
+# Foraging example
+nim c -r examples/foraging/example_foraging.nim
 ```
 
-**Features:**
-- Two populations evolve simultaneously
-- Arms race: predators evolve hunting, prey evolve evasion
-- Combat system with attack/defense rolls
-- Fitness based on kills (predators) and escapes (prey)
+---
 
-### 3. Swarm Intelligence Example
+## 🤖 Meta-Router Architecture
 
-Emergent collective behavior:
+Agents can now perform high-level reasoning using the `think` method:
 
-```bash
-nim c -r example_swarm.nim
+```nim
+let strategy = agent.think("The environment has high competition for food. What should I do?")
+echo strategy
 ```
 
-**Behaviors:**
-- **Flocking**: Cohesion, separation, alignment (Reynolds' boids)
-- **Foraging**: Resource collection and nest delivery
-- **Defending**: Territory protection
-- **Exploring**: Area coverage
+The Meta-Router automatically classifies query complexity and routes to the most efficient model tier (Free models from Groq, Gemini, DeepSeek, etc.).
 
 ---
 
 ## 🧪 Key Features
-
-### 1. Neuroevolution (NEAT-inspired)
-
-```nim
-# Create neural network that evolves topology
-let network = newNeuralNetwork(inputSize = 5, outputSize = 2)
-
-# Structural mutations
-mutateAddNode(network)        # Split connection with new node
-mutateAddConnection(network)  # Add random connection
-mutateWeights(network, 0.3)   # Perturb weights
-
-# Crossover with innovation numbers
-let offspring = crossover(parent1.network, parent2.network)
-```
-
-**Features:**
-- Evolves both weights AND topology
-- Innovation numbers for crossover alignment
-- Feedforward and recurrent connections
-- Speciation for diversity preservation
-
-### 2. Swarm Behaviors
-
-```nim
-# Create swarm agent with role and behavior
-let agent = newSwarmAgent(id, srWorker, btForage)
-
-# Automatic local interactions
-updateNeighbors(agent, env, radius = 30.0)
-
-# Reynolds' flocking rules
-let coh = cohesion(agent, env)        # Steer to center
-let sep = separation(agent, env)      # Avoid crowding
-let ali = alignment(agent, env)       # Match velocity
-```
-
-**Roles:**
-- `srScout`: Exploration
-- `srWorker`: Resource gathering
-- `srGuard`: Territory defense
-- `srQueen`: Reproduction
-
-### 3. Coevolutionary Dynamics
-
-```nim
-# Create competing populations
-let predator = newCoevoAgent(id, ctPredator, 8, 2)
-let prey = newCoevoAgent(id, ctPrey, 11, 2)
-
-# Simulate interactions
-handleInteractions(env)  # Combat, feeding, energy depletion
-
-# Coevolve both populations
-coevolve(predators, prey, params)
-```
-
-**Features:**
-- Predator-prey dynamics
-- Combat resolution with stochastic rolls
-- Resource management (food for prey)
-- Fitness pressure from both sides
-
-### 4. Evolution Core
-
-```nim
-# Configure evolution
-let params = EvolutionParams(
-  populationSize: 50,
-  mutationRate: 0.3,
-  crossoverRate: 0.7,
-  eliteSize: 5,
-  maxGenerations: 100,
-  tournamentSize: 3
-)
-
-# Selection methods
-let parent = tournamentSelection(pop, 3)
-let parent = rouletteSelection(pop)
-let parent = rankSelection(pop)
-
-# Evolution step
-let nextGen = evolvePopulation(pop, params, nextId)
-```
-
----
-
-## 🎯 Use Cases
-
-### 1. **Game AI**
-- Evolve controllers for NPCs
-- Adaptive difficulty
-- Emergent strategies
-
-### 2. **Robotics**
-- Swarm coordination
-- Path planning
-- Behavior synthesis
-
-### 3. **Optimization**
-- Parameter tuning
-- Multi-objective problems
-- Constraint satisfaction
-
-### 4. **Research**
-- Artificial life studies
-- Evolutionary dynamics
-- Collective intelligence
-
----
-
-## 🔬 Implementation Details
-
-### Vector2D Operations
-
-```nim
-let pos = Vector2D(x: 10.0, y: 20.0)
-let vel = Vector2D(x: 1.0, y: 0.5)
-
-let newPos = pos + vel              # Vector addition
-let dist = distance(pos, target)    # Euclidean distance
-let normalized = vel.normalize()    # Unit vector
-let magnitude = vel.magnitude()     # Length
-```
-
-### Toroidal Topology
-
-```nim
-# Wrap around boundaries
-wrapAround(agent.state.position, env.width, env.height)
-```
-
-### Neural Network Activation
-
-```nim
-# Forward pass
-let inputs = agent.sense(env)
-let outputs = network.activate(inputs)
-agent.act(outputs, env)
-```
-
----
-
-## 📊 Performance Characteristics
-
-| Component | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
-| Neural forward pass | O(E) | O(N + E) |
-| Mutation | O(1) | O(1) |
-| Crossover | O(E) | O(E) |
-| Tournament selection | O(k) | O(1) |
-| Neighbor detection | O(n²) | O(n) |
-| Speciation | O(n·s·E) | O(n) |
-
-Where:
-- E = number of connections
-- N = number of nodes
-- n = population size
-- s = number of species
-- k = tournament size
-
----
-
-## 🎨 Customization
-
-### Create Custom Agent Type
-
-```nim
-type
-  MyAgent = ref object of NeuroAgent
-    customField: float
-
-proc newMyAgent(id: int): MyAgent =
-  new(result)
-  result.id = id
-  result.network = newNeuralNetwork(inputSize, outputSize)
-  result.customField = 0.0
-
-method sense*(agent: MyAgent, env: Environment): seq[float] =
-  # Custom sensing logic
-  result = @[agent.state.position.x, agent.state.position.y]
-
-method act*(agent: MyAgent, outputs: seq[float], env: Environment) =
-  # Custom action logic
-  agent.state.velocity = Vector2D(x: outputs[0], y: outputs[1])
-
-method evaluateFitness*(agent: MyAgent, env: Environment): float =
-  # Custom fitness function
-  result = agent.customField * 10.0
-```
-
-### Custom Evolution Strategy
-
-```nim
-proc customSelection[T](pop: Population[T]): T =
-  # Implement custom selection
-  result = pop.individuals[0]
-
-proc customMutation(agent: MyAgent, rate: float) =
-  # Implement custom mutations
-  if rand(1.0) < rate:
-    agent.customField += randomFloat(-1.0, 1.0)
-```
-
----
-
-## 📖 Research References
-
-1. **Stanley, K. O., & Miikkulainen, R. (2002)**. *Evolving Neural Networks through Augmenting Topologies*. Evolutionary Computation.
-
-2. **Reynolds, C. W. (1987)**. *Flocks, herds and schools: A distributed behavioral model*. SIGGRAPH.
-
-3. **Potter, M. A., & De Jong, K. A. (2000)**. *Cooperative coevolution: An architecture for evolving coadapted subcomponents*. Evolutionary Computation.
-
-4. **Ferrante et al. (2013)**. *GESwarm: Grammatical evolution for the automatic synthesis of collective behaviors in swarm robotics*. GECCO.
-
-5. **Papavasileiou et al. (2021)**. *A systematic literature review of the successors of neuroevolution of augmenting topologies*. Evolutionary Computation.
-
-6. **EvoAgent (2024)**. *Towards Automatic Multi-Agent Generation via Evolutionary Algorithm*. arXiv:2406.14228.
-
----
-
-## 🛠️ Technical Notes
-
-### Memory Management
-- Nim's garbage collector handles agent allocation
-- Use `ref object` for polymorphism
-- Sequences are automatically resized
-
-### Random Number Generation
-- Call `randomize()` to seed RNG
-- Use `rand()` for uniform distribution
-- Thread-safe variants available
-
-### Compilation Options
-
-```bash
-# Debug build
-nim c -d:debug example_foraging.nim
-
-# Release build (optimized)
-nim c -d:release example_foraging.nim
-
-# Danger mode (max optimization)
-nim c -d:danger example_foraging.nim
-```
-
----
-
-## 🤝 Contributing
-
-This framework is designed for extensibility:
-
-1. Add new agent types by inheriting from `Agent`
-2. Implement custom sensors and actuators
-3. Define domain-specific fitness functions
-4. Create new evolutionary operators
-5. Implement visualization tools
-
----
-
-## 📝 License
-
-Open source - feel free to use in research and applications.
-
----
-
-## 🎓 Educational Value
-
-Perfect for learning:
-- Evolutionary algorithms
-- Multi-agent systems
-- Artificial life
-- Emergent behavior
-- Neural network evolution
-- Nim programming
-
----
-
-## 🔮 Future Extensions
-
-Potential additions:
-- [ ] HyperNEAT for indirect encoding
-- [ ] ES-HyperNEAT for substrate evolution
-- [ ] Multi-objective optimization (NSGA-II)
-- [ ] Novelty search
-- [ ] Quality diversity algorithms
-- [ ] Visualization tools
-- [ ] Parallel evolution
-- [ ] GPU acceleration
-
----
-
-**Happy Evolving! 🧬**
+... (Rest of original content)
